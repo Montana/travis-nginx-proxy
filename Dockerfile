@@ -26,12 +26,10 @@ RUN apk add --no-cache --virtual .bin-deps \
     tar \
     tzdata
 
-# Install docker-gen from the nginxproxy/docker-gen image
 COPY --from=docker-gen /usr/local/bin/docker-gen /usr/local/bin/
 
 # Install acme.sh
-COPY /install_acme.sh /app/install_acme.sh
-RUN chmod +rx /app/install_acme.sh \
+RUN chmod +rx /install_acme.sh \
     && sync \
-    && /app/install_acme.sh \
-    && rm -f /app/install_acme.sh
+    && install_acme.sh \
+    && rm -f install_acme.sh
