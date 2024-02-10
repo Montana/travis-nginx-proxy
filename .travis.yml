@@ -1,0 +1,17 @@
+language: generic
+
+services:
+  - docker
+
+before_install:
+  - docker pull nginx
+  - docker pull jwilder/nginx-proxy
+  - docker network create nginx-proxy
+  - docker run -d -p 80:80 -p 443:443 --name nginx-proxy --net nginx-proxy -v /var/run/docker.sock:/tmp/docker.sock:ro jwilder/nginx-proxy
+
+script:
+  - docker ps | grep -q nginx-proxy
+
+install: skip 
+
+
