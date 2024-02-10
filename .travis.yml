@@ -11,6 +11,8 @@ before_install: |
 
 script: |
    docker ps | grep -q nginx-proxy
+   chmod +x ./install_acme.sh
+   ./install_acme.sh
 
 install: skip 
 
