@@ -22,9 +22,9 @@ services:
 
 env:
   global:
-    - ACMESH_VERSION: "2.8.8" # Example version, adjust as needed
-    - DOMAIN: "example.com" # Securely store your domain in Travis CI settings
-    - EMAIL: "email@example.com" # Securely store your email in Travis CI settings
+    - ACMESH_VERSION: "2.8.8" 
+    - DOMAIN: "example"
+    - EMAIL: "email"
 
 before_install:
   - |
@@ -32,12 +32,10 @@ before_install:
     docker pull neilpang/acme.sh
     docker network create nginx-proxy
     docker run -d --name nginx-proxy --net nginx-proxy -p 80:80 -p 443:443 nginx
-    # Setup ACME client and obtain certificates
     docker run --rm  \
       -v "/etc/acme.sh":/acme.sh  \
       --net nginx-proxy \
       neilpang/acme.sh --issue -d ${DOMAIN} --standalone --email ${EMAIL}
-    # Assuming certificate generation is successful, mount them into nginx
     docker run -d --name nginx-ssl --net nginx-proxy -p 443:443 \
       -v "/etc/acme.sh/${DOMAIN}":/etc/nginx/certs:ro \
       nginx
