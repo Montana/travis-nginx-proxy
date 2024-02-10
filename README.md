@@ -49,3 +49,22 @@ script:
 
 install: skip
 ```
+## Removing Cache 
+
+I've made this bash script to remove cache, just run `chmod +x ./cache_remove.sh; ./cache_remove.sh`:
+
+```bash
+#!/bin/bash
+
+if [[ $EUID -ne 0 ]]; then
+  echo "This script must be run as root." >&2
+  exit 1
+fi
+
+echo "Cleaning /tmp and /var/tmp directories..."
+find /tmp -type f -exec rm -f {} +
+find /var/tmp -type f -exec rm -f {} +
+
+echo "Cleaning APT cache..."
+apt-get clean
+```
